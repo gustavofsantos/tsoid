@@ -1,6 +1,6 @@
 export default async function when<A>(cond: boolean, fn: () => Promise<A>): Promise<A | Error | undefined> {
   try {
-    if (cond) {
+    if (cond === true) {
       return await fn();
     }
 
