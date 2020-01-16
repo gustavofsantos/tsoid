@@ -6,14 +6,32 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "library",
+    "typescript",
+    "functional",
+    "declarative",
+    "promises",
+    "async",
+    "asynchronous"
+  ],
   "types": "dist/index.d.ts",
   "author": "Gustavo Santos <gustavofsantos@outlook.com>",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
-    "watch": "rollup -cw"
+    "watch": "rollup -cw",
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "test-coverage": "jest --coverage"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^24.9.0",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "rollup": "^1.29.0",
     "rollup-plugin-typescript2": "^0.25.3",
     "typescript": "^3.7.4"
