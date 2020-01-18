@@ -20,7 +20,7 @@ export async function liftP2<A, B, C>(fn: FunctionA2<A, B, C>, pa: Promise<A>, p
     const resB = await pb;
     return fn(resA, resB);
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 
@@ -36,6 +36,6 @@ export async function liftP3<A, B, C, D>(
     const resC = await pc;
     return fn(resA, resB, resC);
   } catch (err) {
-    return err;
+    throw err;
   }
 }

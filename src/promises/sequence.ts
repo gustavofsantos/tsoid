@@ -1,6 +1,10 @@
-export default function sequenceP<A>(ps: Promise<A>[]): Promise<A[] | Error> {
+export default async function sequenceP<A>(ps: Promise<A>[]): Promise<A[] | Error> {
   try {
-    return Promise.all(ps);
+    const results = [];
+    for await (let p of ps) {
+      results.push(p);
+    }
+    return results;
   } catch (err) {
     return err;
   }
