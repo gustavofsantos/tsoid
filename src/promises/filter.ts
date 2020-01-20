@@ -2,18 +2,16 @@ import { FunctionA1 } from "../types";
 
 export default async function filter<A>(predP: FunctionA1<A, Promise<boolean>>, traversable: A[]): Promise<A[] | Error> {
   try {
-    const result: A[] = [];
+    const results: A[] = [];
 
-    traversable.forEach((item) => {
-      predP(item)
-        .then((value) => {
-          if (value) {
-            result.push(item);
-          }
-        });
-    });
+    for (let item of traversable) {
+      const result = await predP(item);
+      if (result === true) {
+        results.push(item);
+      }
+    }
 
-    return result;
+    return results;
   } catch (err) {
     return err;
   }
