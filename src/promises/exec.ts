@@ -1,3 +1,4 @@
+import fail from './fail';
 import { FunctionPromiseA1 } from './types';
 
 /**
@@ -6,12 +7,12 @@ import { FunctionPromiseA1 } from './types';
  *
  * @param {function[]} fns
  */
-export default async function exec(...fns: FunctionPromiseA1<void, any>[]): Promise<void> {
+export default async function exec(...fns: FunctionPromiseA1<void, any>[]): Promise<void | Error> {
   try {
     for (let fn of fns) {
       await fn();
     }
   } catch (err) {
-    throw err;
+    return fail(err);
   }
 }

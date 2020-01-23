@@ -1,3 +1,11 @@
+import fail from './fail';
+
+/**
+ * Process a sequence of promises synchronously and return a promise that resolves to
+ * an array of results.
+ *
+ * @param {Promise[]} ps
+ */
 export default async function sequenceP<A>(ps: Promise<A>[]): Promise<A[] | Error> {
   try {
     const results = [];
@@ -6,6 +14,6 @@ export default async function sequenceP<A>(ps: Promise<A>[]): Promise<A[] | Erro
     }
     return results;
   } catch (err) {
-    return err;
+    return fail(err);
   }
 }

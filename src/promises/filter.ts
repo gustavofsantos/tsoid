@@ -1,3 +1,4 @@
+import fail from './fail';
 import { FunctionA1 } from "../types";
 
 export default async function filter<A>(predP: FunctionA1<A, Promise<boolean>>, traversable: A[]): Promise<A[] | Error> {
@@ -13,6 +14,6 @@ export default async function filter<A>(predP: FunctionA1<A, Promise<boolean>>, 
 
     return results;
   } catch (err) {
-    return err;
+    return fail(err);
   }
 }

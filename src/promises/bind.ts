@@ -1,3 +1,4 @@
+import fail from './fail';
 import { FunctionPromiseA1 } from './types';
 
 /**
@@ -24,6 +25,6 @@ export default async function bind<A>(p: Promise<A>, ...fns: FunctionPromiseA1<a
 
     return finalResult;
   } catch (err) {
-    throw err;
+    return fail(err);
   }
 }

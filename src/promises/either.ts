@@ -1,3 +1,4 @@
+import fail from './fail';
 import { FunctionA1 } from "../types";
 
 export default async function either<A, C>(
@@ -14,6 +15,6 @@ export default async function either<A, C>(
 
     return fn1(eitherVal);
   } catch (err) {
-    return err;
+    return fail(err);
   }
 }

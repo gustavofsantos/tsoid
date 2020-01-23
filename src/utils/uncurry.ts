@@ -1,5 +1,10 @@
 import { FunctionCurriedA2, FunctionCurriedA3, FunctionCurriedA4 } from '../types';
 
+/**
+ * Uncurry a given curried function
+ *
+ * @param fn
+ */
 export default function uncurry<A, B, C>(fn: FunctionCurriedA2<A, B, C>) {
   return function uncurriedFn(arg0: A, arg1: B) {
     return fn(arg0)(arg1);

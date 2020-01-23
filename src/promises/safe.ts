@@ -1,3 +1,4 @@
+import fail from './fail';
 import { FunctionVar } from '../types';
 
 /**
@@ -11,12 +12,6 @@ export default async function safe<R>(action: FunctionVar<Promise<R>>, ...args: 
   try {
     return await action(...args);
   } catch (err) {
-    if (err instanceof Error) {
-      return err;
-    }
-    if (typeof err === 'string') {
-      return new Error(err);
-    }
-    return err;
+    return fail(err);
   }
 }

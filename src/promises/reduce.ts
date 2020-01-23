@@ -1,5 +1,13 @@
+import fail from './fail';
 import { FunctionPromiseA2 } from "./types";
 
+/**
+ * Reduce an array of elements into a value, based in an async reducer function.
+ *
+ * @param {function} reducerFn
+ * @param {any} base
+ * @param {any[]} traversable
+ */
 export default async function reduce<A, B>(
   reducerFn: FunctionPromiseA2<B, A, B>,
   base: B,
@@ -14,6 +22,6 @@ export default async function reduce<A, B>(
 
     return internalAccumulator;
   } catch (err) {
-    return err;
+    return fail(err);
   }
 }

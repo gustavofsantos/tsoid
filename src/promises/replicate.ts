@@ -1,9 +1,16 @@
+import fail from './fail';
 import { FunctionPromiseA1 } from "./types";
 
+/**
+ * Replicate synchronously an async function n times and collect the results.
+ *
+ * @param {number} times
+ * @param {function} action
+ */
 export default async function replicate<A>(times: number, action: FunctionPromiseA1<void, Promise<A>>): Promise<A[] | Error> {
   try {
     if (times < 0) {
-      return new Error('Value times should be a natural number.');
+      return fail('Value times should be a natural number.');
     }
 
     const values: A[] = [];
@@ -16,6 +23,6 @@ export default async function replicate<A>(times: number, action: FunctionPromis
 
     return values;
   } catch (err) {
-    return err;
+    return fail(err);
   }
 }

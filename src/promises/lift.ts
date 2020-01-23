@@ -1,6 +1,7 @@
-import either from "./either";
-import id from "../utils/id";
-import { FunctionA3, FunctionA2, FunctionA1 } from "../types";
+import either from './either';
+import id from '../utils/id';
+import fail from './fail';
+import { FunctionA3, FunctionA2, FunctionA1 } from '../types';
 
 export default async function liftP<A, B>(fn: FunctionA1<A, B>, pa: Promise<A | Error>): Promise<B | Error> {
   return either(fn, id, pa);
@@ -20,7 +21,7 @@ export async function liftP2<A, B, C>(fn: FunctionA2<A, B, C>, pa: Promise<A>, p
     const resB = await pb;
     return fn(resA, resB);
   } catch (err) {
-    throw err;
+    return fail(err);
   }
 }
 
@@ -36,6 +37,6 @@ export async function liftP3<A, B, C, D>(
     const resC = await pc;
     return fn(resA, resB, resC);
   } catch (err) {
-    throw err;
+    return fail(err);
   }
 }
