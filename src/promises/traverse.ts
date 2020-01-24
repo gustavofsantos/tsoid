@@ -2,11 +2,12 @@ import fail from './fail';
 import { FunctionPromiseA1 } from './types';
 
 /**
- *
- * @param fn
- * @param list
+ * Traverse is like the map function, but with the arguments flipped.
+ * 
+ * @param {function} fn
+ * @param {any[]} list
  */
-export default async function traverse<A, B>(fn: FunctionPromiseA1<A, B>, list: A[]): Promise<B[] | Error> {
+export default async function traverse<A, B>(list: A[], fn: FunctionPromiseA1<A, B>): Promise<B[] | Error> {
   const results: B[] = [];
 
   try {
