@@ -1,6 +1,6 @@
 {
   "name": "tsoid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
@@ -23,7 +23,8 @@
     "watch": "rollup -cw",
     "test": "jest",
     "test-watch": "jest --watch",
-    "test-coverage": "jest --coverage"
+    "test-coverage": "jest --coverage",
+    "publish": "npm run build && npm publish"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
