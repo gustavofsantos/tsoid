@@ -12,6 +12,8 @@ npm install tsoid
 
 ### Documentation
 
+The key difference is that this library self handles all errors that could be happen during the execution time. In cases that a computation of actions is composed (e.g. many actions run synchronously) if one error occur, it will be propagated till the end.
+
 #### Promise based functions
 
 ##### pure
@@ -150,11 +152,10 @@ flatten the Promise and apply the value into the action, then await for the resu
 Example: 
 
 ```javascript
-const futureSelf = Promise.resolve({ name: 'Gustavo' });
-
+const futureSelf = Promise.resolve({ name: 'User' });
 const viewName = (user) => user.name;
 
-flatMap(futureSelf, viewName); // Promise('Gustavo')
+flatMap(futureSelf, viewName); // Promise('User')
 ```
 
 ##### bind
