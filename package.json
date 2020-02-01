@@ -1,6 +1,6 @@
 {
   "name": "tsoid",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
@@ -35,7 +35,7 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
-    "publish": "npm run build && npm publish"
+    "publish": "npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
