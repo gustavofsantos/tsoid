@@ -1,5 +1,4 @@
-
-  import liftP from '../lift';
+import liftP from '../lift';
 import {
   getUser, getUsers, getUserWithError, User,
 } from '../../../tests/utils';
@@ -13,7 +12,7 @@ describe('liftP', () => {
   const joinIds = (ids: string[]) => ids.join(' -> ');
 
   it('Should lift a function into a promise', () => {
-    const px = Promise.resolve(1);
+    const px = () => Promise.resolve(1);
 
     const result = liftP(addOne, px);
 
@@ -21,13 +20,13 @@ describe('liftP', () => {
   });
 
   it('Lift a function that get the user id from Promise<User>', async () => {
-    const uid = await liftP(getUserID, getUser('123'));
+    const uid = await liftP(getUserID, () => getUser('123'));
 
     expect(uid).toBe('123');
   });
 
   it('Should handle promise failure', async () => {
-    const uid = await liftP(getUserID, getUserWithError('123'));
+    const uid = await liftP(getUserID, () => getUserWithError('123'));
 
     expect(uid).toBeInstanceOf(Error);
     expect((uid as Error).message).toBe('Error getting 123');
@@ -36,7 +35,7 @@ describe('liftP', () => {
   it('Should return a promise of an error if any error occur when lifting', () => {
     const maybeGetTen = () => Promise.reject(new Error('reason test'));
 
-    const result = liftP(addOne, maybeGetTen());
+    const result = liftP(addOne, maybeGetTen);
 
     result.catch((err) => {
       expect(err).toBeInstanceOf(Error);
@@ -46,14 +45,14 @@ describe('liftP', () => {
   it('Should lift a composed function', async () => {
     const composedFn = compose(joinIds, mapID, filterEvens);
 
-    const result = await liftP(composedFn, getUsers());
+    const result = await liftP(composedFn, getUsers);
     expect(result).toBe('01 -> 03');
   });
 
   it('Should lift a piped function', async () => {
     const pipedFn = pipe(filterEvens, mapID, joinIds);
 
-    const result = await liftP(pipedFn, getUsers());
+    const result = await liftP(pipedFn, getUsers);
     expect(result).toBe('01 -> 03');
   });
 });

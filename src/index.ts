@@ -18,7 +18,9 @@ export { default as traverse } from './promises/traverse';
 export { default as map } from './promises/map';
 export { default as filter } from './promises/filter';
 export { default as reduce } from './promises/reduce';
-export { default as lift, liftP2, liftP3 } from './promises/lift';
+export {
+  default as lift, liftP2, liftP3, liftPN,
+} from './promises/lift';
 export { default as flatMap } from './promises/flatMap';
 export { default as bind } from './promises/bind';
 export { default as exec } from './promises/exec';

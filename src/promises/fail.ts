@@ -1,7 +1,7 @@
 /**
  * Returns a promise that resolves to an error.
  *
- * @param err Error instance or reason
+ * @param err Error instance or reason.
  */
 export default function fail(err: Error | string): Promise<Error> {
   if (err instanceof Error) {

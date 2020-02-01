@@ -1,5 +1,6 @@
 import fail from './fail';
 import { FunctionPromiseA1 } from './types';
+import { FunctionA1 } from '../types';
 
 /**
  * Bind is a transient function that takes an initial promise and resolves it,
@@ -12,13 +13,16 @@ import { FunctionPromiseA1 } from './types';
  * @param {Promise} p
  * @param {function[]} fns
  */
-export default async function bind<A>(p: Promise<A>, ...fns: FunctionPromiseA1<any, any>[]): Promise<unknown> {
+export default async function bind<A>(
+  p: FunctionA1<void, Promise<A>>,
+  ...fns: FunctionPromiseA1<any, any>[]
+): Promise<unknown> {
   try {
-    const initialValueResolved = await p;
-    let finalResult = undefined;
+    const initialValueResolved = await p();
+    let finalResult;
     let index = 0;
 
-    for (let fn of fns) {
+    for (const fn of fns) {
       finalResult = await fn(index === 0 ? initialValueResolved : finalResult);
       index += 1;
     }

@@ -1,4 +1,5 @@
 import fail from './fail';
+import { FunctionA1 } from '../types';
 
 /**
  * Process a sequence of promises synchronously and return a promise that resolves to
@@ -6,11 +7,15 @@ import fail from './fail';
  *
  * @param {Promise[]} ps
  */
-export default async function sequenceP<A>(ps: Promise<A>[]): Promise<A[] | Error> {
+export default async function sequence<A>(ps: FunctionA1<void, Promise<A>>[]): Promise<A[] | Error> {
   try {
     const results = [];
-    for await (let p of ps) {
-      results.push(p);
+
+    for await (const p of ps) {
+      const res = await p();
+      if (res instanceof Error) return fail(res);
+
+      results.push(res);
     }
     return results;
   } catch (err) {

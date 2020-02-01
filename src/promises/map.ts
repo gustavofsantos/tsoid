@@ -1,5 +1,5 @@
 import fail from './fail';
-import { FunctionPromiseA1 } from "./types";
+import { FunctionPromiseA1 } from './types';
 
 /**
  * Apply the mapper action function to each element of the traversable collection,
@@ -12,8 +12,9 @@ export default async function map<A, B>(fn: FunctionPromiseA1<A, B>, traversable
   try {
     const results = [];
 
-    for (let item of traversable) {
+    for (const item of traversable) {
       const result = await fn(item);
+      if (result instanceof Error) return fail(result);
       results.push(result);
     }
 
