@@ -23,7 +23,8 @@ Lift a value into a resolved Promise.
 Example:
 
 ```javascript
-pure(42); // Promise(42)
+pure(42);
+// Promise { 42 }
 ```
 
 ##### fail
@@ -33,7 +34,8 @@ Helper function that receives an string or an instance of Error and return an Pr
 Example:
 
 ```javascript
-fail('This is an error'); // Promise(Error('This is an error));
+fail('This is an error');
+// Promise { Error('This is an error) };
 ```
 
 ##### when
@@ -60,6 +62,33 @@ it calls the first callback passing the promise result if the result is no an Er
 it calls the second callback passing the promise result if the result is an instance
 of Error.
 
+It could act as a default function call if there's any error involved in the computation
+
+Example:
+
+```javascript
+const successCallback = jest.fn((n) => n + 1);
+const errorCallback = jest.fn(() => 9);
+
+const action = () => Promise.resolve(new Error('Some error'));
+either(successCallback, errorCallback, action);
+// Promise { 9 }
+```
+
+But, if the computation throws an Error, that is the case of `Promise.reject`,
+the flow will be stopped and the error will be returned as a resolved promise.
+
+Example:
+
+```javascript
+const successCallback = jest.fn((n) => n + 1);
+const errorCallback = jest.fn(() => 9);
+
+const action = () => Promise.reject(new Error('Some error'));
+either(successCallback, errorCallback, action);
+// Promise rejected { Error('Some error') };
+```
+
 ##### map
 
 For a given action function and a list of values, applies the function to each element of the array, waits for each result and return a list of results.
@@ -69,7 +98,8 @@ Example:
 ```javascript
 const getUser = (id) => Promise.resolve({ id, user: 'User' });
 
-map(getUser, [1, 2, 3]); // Promise([ { id: 1, user: "User"}, { id: 2, user: "User" }, ... ])
+map(getUser, [1, 2, 3]);
+// Promise { [ { id: 1, user: "User"}, { id: 2, user: "User" }, ... ] }
 ```
 
 ##### filter
@@ -83,7 +113,8 @@ Example:
 ```javascript
 const userExist = (id) => Promise.resolve([1, 3].includes(id));
 
-filter(userExist, [1, 2, 3]); // Promise([1, 3]);
+filter(userExist, [1, 2, 3]);
+// Promise { [1, 3] };
 ```
 
 ##### reduce
@@ -93,10 +124,11 @@ Reduce a list of items into a single item using an async function.
 Example:
 
 ```javascript
-const add = (x: number, y: number) => Promise.resolve(x + y);
+const add = (x, y) => Promise.resolve(x + y);
 const list = [1, 2, 3, 4, 5];
 
-reduce(add, 0, list); // Promise(15);
+reduce(add, 0, list);
+// Promise { 15 };
 ```
 
 ##### replicate
@@ -108,7 +140,8 @@ Example:
 ```javascript
 const getRandom = () => Promise.resolve(Math.trunc(Math.random() * 10));
 
-replicate(3, getRandom); // Promise([8, 3, 4])
+replicate(3, getRandom);
+// Promise { [8, 3, 4] }
 ```
 
 ##### sequence
@@ -121,7 +154,8 @@ Example:
 const getTen = () => Promise.resolve(10);
 const getTwenty = () => Promise.resolve(20);
 
-sequence([getTen(), getTwenty()]); // Promise([10, 20])
+sequence([getTen(), getTwenty()]);
+// Promise { [10, 20] }
 ```
 
 ##### traverse
@@ -138,11 +172,13 @@ Example:
 const future10 = Promise.resolve(10);
 const isTen = (x) => x === 10;
 
-lift(isTen, future10); // Promise(true);
+lift(isTen, future10);
+// Promise { true };
 ```
 
-It is also exported the functions lift2, lift3 and lift4, that resolves all the promises
-then apply the n-ary function to its values.
+It is also exported the functions `liftP2`, `liftP3`, `liftP4`
+and a type unsafe version called `liftPN`, that resolves all
+the promises then apply the n-ary function to its values.
 
 ##### flatMap
 
@@ -155,7 +191,8 @@ Example:
 const futureSelf = Promise.resolve({ name: 'User' });
 const viewName = (user) => user.name;
 
-flatMap(futureSelf, viewName); // Promise('User')
+flatMap(futureSelf, viewName);
+// Promise { 'User' }
 ```
 
 ##### bind
@@ -168,11 +205,12 @@ Example:
 
 ```javascript
 const initial = Promise.resolve(1);
-const doubleP = (x: number) => Promise.resolve(x * 2);
-const tripleP = (x: number) => Promise.resolve(x * 3);
-const stringifyP = (x: number) => Promise.resolve('' + x);
+const doubleP = (x) => Promise.resolve(x * 2);
+const tripleP = (x) => Promise.resolve(x * 3);
+const stringifyP = (x) => Promise.resolve('' + x);
 
-bind(initial, doubleP, tripleP, stringifyP); // Promise('6')
+bind(initial, doubleP, tripleP, stringifyP);
+// Promise { '6' }
 ```
 
 ##### exec
@@ -217,14 +255,55 @@ Transform a function into an static curried function.
 Example:
 
 ```javascript
-const add10 = curry((x, y) => x + y);
+const add = (x, y) => x + y;
+const add10 = curry(add);
+
 add10(10); // 20
 ```
 
-It is also exported curry3 and curry4 functions that deal with function that has 3 and 4-arity.
+It is also exported `curry3` and `curry4` functions that deal with function that has 3 and 4-arity.
 
 ##### uncurry
 
+Undo a curried function.
+
+Example:
+
+```javascript
+const lazyAdd = (x) => (y) => x + y;
+const add = uncurry(lazyAdd);
+
+add(1, 2); // 3
+```
+
 ##### compose
 
+Compose `n` pure functions into a single function, applying from right to left.
+
+Example:
+
+```javascript
+const fn1 = (arg) => `fn1(${arg})`;
+const fn2 = (arg) => `fn2(${arg})`;
+const fn3 = (arg) => `fn3(${arg})`;
+const fn4 = (arg) => `fn4(${arg})`;
+
+const composed = compose(fn1, fn2, fn3, fn4);
+composed(); // fn1(fn2(fn3(fn4(1))))
+```
+
 ##### pipe
+
+Compose `n` pure functions into a single function, applying from left to right.
+
+Example:
+
+```javascript
+const fn1 = (arg) => `fn1(${arg})`;
+const fn2 = (arg) => `fn2(${arg})`;
+const fn3 = (arg) => `fn3(${arg})`;
+const fn4 = (arg) => `fn4(${arg})`;
+
+const piped = pipe(fn1, fn2, fn3, fn4);
+piped(1); // fn4(fn3(fn2(fn1(1))))
+```

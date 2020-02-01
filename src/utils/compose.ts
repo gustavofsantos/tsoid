@@ -1,5 +1,5 @@
-import id from "./id";
-import { FunctionA1 } from "../types";
+import id from './id';
+import { FunctionA1 } from '../types';
 
 /**
  * Compose two or more function into one function.

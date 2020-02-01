@@ -1,5 +1,5 @@
-import id from "./id";
-import { FunctionA1 } from "../types";
+import id from './id';
+import { FunctionA1 } from '../types';
 
 /**
  * Create a new function that represents all the functions piped

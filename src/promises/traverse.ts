@@ -13,7 +13,10 @@ export default async function traverse<A, B>(list: A[], fn: FunctionPromiseA1<A,
   try {
     for (const elem of list) {
       const result = await fn(elem);
-      if (result instanceof Error) return fail(result);
+
+      if (result instanceof Error) {
+        return fail(result);
+      }
 
       results.push(result);
     }

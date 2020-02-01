@@ -21,4 +21,37 @@ describe('liftP3', () => {
     expect(res).toBeInstanceOf(Error);
     expect((res as Error).message).toBe('Could not get 3');
   });
+
+  it('Should handle if the first action return Error', async () => {
+    const get1 = async () => new Error('Error in get1');
+    const get2 = async () => 2;
+    const get3 = async () => 3;
+
+    // @ts-ignore
+    const res = await liftP3(add3, get1, get2, get3);
+    expect(res).toBeInstanceOf(Error);
+    expect((res as Error).message).toBe('Error in get1');
+  });
+
+  it('Should handle if the second action return Error', async () => {
+    const get1 = async () => 1;
+    const get2 = async () => new Error('Error in get2');
+    const get3 = async () => 3;
+
+    // @ts-ignore
+    const res = await liftP3(add3, get1, get2, get3);
+    expect(res).toBeInstanceOf(Error);
+    expect((res as Error).message).toBe('Error in get2');
+  });
+
+  it('Should handle if the third action return Error', async () => {
+    const get1 = async () => 1;
+    const get2 = async () => 2;
+    const get3 = async () => new Error('Error in get3');
+
+    // @ts-ignore
+    const res = await liftP3(add3, get1, get2, get3);
+    expect(res).toBeInstanceOf(Error);
+    expect((res as Error).message).toBe('Error in get3');
+  });
 });
