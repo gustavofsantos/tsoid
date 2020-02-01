@@ -1,4 +1,4 @@
-import { reduce } from "../../index";
+import { reduce } from '../../index';
 
 describe('reduce', () => {
   const add = (x: number, y: number) => Promise.resolve(x + y);

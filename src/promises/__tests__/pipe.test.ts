@@ -1,4 +1,4 @@
-import { pipe } from "../../index";
+import { pipe } from '../../index';
 
 describe('pipe', () => {
   const fn1 = (val: string) => `fn1(${val})`;
@@ -9,8 +9,8 @@ describe('pipe', () => {
 
   it('pipe fn', () => {
     const fn = pipe(fn1, fn2, fn3, fn4, fn5);
-    const result = fn("value");
+    const result = fn('value');
 
     expect(result).toBe('fn5(fn4(fn3(fn2(fn1(value)))))');
-  })
-})
+  });
+});

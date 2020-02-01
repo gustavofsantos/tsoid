@@ -9,10 +9,12 @@ import { FunctionPromiseA1 } from './types';
  */
 export default async function exec(...fns: FunctionPromiseA1<void, any>[]): Promise<void | Error> {
   try {
-    for (let fn of fns) {
+    for (const fn of fns) {
       await fn();
     }
+    return;
   } catch (err) {
+    // eslint-disable-next-line consistent-return
     return fail(err);
   }
 }

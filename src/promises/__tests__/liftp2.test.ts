@@ -41,4 +41,15 @@ describe('liftP2', () => {
     expect(result).toBeInstanceOf(Error);
     expect((result as Error).message).toBe('Some error message');
   });
+
+  it('Should propagate the Error if some action resolves to an Error', async () => {
+    const getTwo = () => new Promise<Error>((resolve) => {
+      resolve(new Error('Oops'));
+    });
+
+    // @ts-ignore
+    const result = await liftP2(add, getOne, getTwo);
+    expect(result).toBeInstanceOf(Error);
+    expect((result as Error).message).toBe('Oops');
+  });
 });
