@@ -2,6 +2,8 @@
 
 Typed functional library to deal with async operations.
 
+![NPM Publish](https://github.com/gustavofsantos/tsoid/workflows/NPM%20Publish/badge.svg?branch=master)
+
 ---
 
 ### Getting Started
