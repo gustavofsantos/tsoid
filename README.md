@@ -2,8 +2,6 @@
 
 Typed functional library to deal with async operations.
 
-![Node.js CI](https://github.com/gustavofsantos/tsoid/workflows/Node.js%20CI/badge.svg?branch=master)
-
 ---
 
 ### Getting Started
