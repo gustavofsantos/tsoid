@@ -53,8 +53,6 @@
     "jest": "^24.9.0",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
-    "rollup": "^1.29.0",
-    "rollup-plugin-typescript2": "^0.25.3",
     "typescript": "^3.7.4"
   }
 }
