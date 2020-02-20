@@ -31,7 +31,7 @@
   "scripts": {
     "build": "tsc",
     "check": "tsc --noEmit",
-    "test": "jest",
+    "test": "CI=true jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
     "publish": "npm run build"
