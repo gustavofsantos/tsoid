@@ -22,4 +22,15 @@ describe('bind', () => {
     expect(result).toBeInstanceOf(Error);
     expect((result as Error).message).toBe('X is invalid!');
   });
+
+  it('Should implement the associative monad law', async () => {
+    const m = () => Promise.resolve(1);
+    const f = (x: number) => Promise.resolve(x + 1);
+    const g = (x: number) => Promise.resolve(x / 2);
+
+    const res1 = await bind(m, f, g);
+    const res2 = await bind(m, (x) => bind(() => x, f, g));
+
+    expect(res1).toBe(res2);
+  });
 });
