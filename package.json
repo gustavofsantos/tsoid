@@ -1,7 +1,7 @@
 {
   "name": "tsoid",
-  "version": "1.0.21",
-  "main": "dist/index.js",
+  "version": "1.1.0",
+  "main": "dist/src/index.js",
   "module": "dist/index.es.js",
   "files": [
     "dist"
@@ -25,13 +25,12 @@
   },
   "lint-staged": {
     "*.ts": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   },
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -cw",
+    "build": "tsc",
+    "check": "tsc --noEmit",
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
@@ -54,8 +53,6 @@
     "jest": "^24.9.0",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
-    "rollup": "^1.29.0",
-    "rollup-plugin-typescript2": "^0.25.3",
     "typescript": "^3.7.4"
   }
 }

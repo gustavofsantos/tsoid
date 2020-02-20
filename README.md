@@ -14,9 +14,9 @@ npm install tsoid
 
 The key difference is that this library self handles all errors that could be happen during the execution time. In cases that a computation of actions is composed (e.g. many actions run synchronously) if one error occur, it will be propagated till the end.
 
-#### Promise based functions
+##### Promise based functions
 
-##### pure
+#### pure
 
 Lift a value into a resolved Promise.
 
@@ -27,7 +27,7 @@ pure(42);
 // Promise { 42 }
 ```
 
-##### fail
+#### fail
 
 Helper function that receives an string or an instance of Error and return an Promise of Error.
 
@@ -38,7 +38,7 @@ fail('This is an error');
 // Promise { Error('This is an error) };
 ```
 
-##### when
+#### when
 
 Execute the action if the condition is `true`.
 
@@ -51,20 +51,20 @@ when(true, printOk); // Ok
 when(false, printOk); //
 ```
 
-##### unless
+#### unless
 
 Is the opposite of `when`.
 
-##### either
+#### either
 
-Given two callback functions and a Promise that can resolve to an Error instance,
-it calls the first callback passing the promise result if the result is no an Error or
+Given two callback functions, and a Promise that can resolve to an Error instance,
+it calls the first callback passing the promise result if the result is an Error, or
 it calls the second callback passing the promise result if the result is an instance
 of Error.
 
-It could act as a default function call if there's any error involved in the computation
 
-Example:
+
+It could act as a default function call if there's any error involved in the computation:
 
 ```javascript
 const successCallback = jest.fn((n) => n + 1);
@@ -89,7 +89,7 @@ either(successCallback, errorCallback, action);
 // Promise rejected { Error('Some error') };
 ```
 
-##### map
+#### map
 
 For a given action function and a list of values, applies the function to each element of the array, waits for each result and return a list of results.
 
@@ -102,7 +102,7 @@ map(getUser, [1, 2, 3]);
 // Promise { [ { id: 1, user: "User"}, { id: 2, user: "User" }, ... ] }
 ```
 
-##### filter
+#### filter
 
 For a given predicate action function and a list of values, applies the predicate
 function to each element of the array, and return a list of all values that satisfies
@@ -117,7 +117,7 @@ filter(userExist, [1, 2, 3]);
 // Promise { [1, 3] };
 ```
 
-##### reduce
+#### reduce
 
 Reduce a list of items into a single item using an async function.
 
@@ -131,7 +131,7 @@ reduce(add, 0, list);
 // Promise { 15 };
 ```
 
-##### replicate
+#### replicate
 
 Performs the action function `n` times, gathering the results.
 
@@ -144,7 +144,7 @@ replicate(3, getRandom);
 // Promise { [8, 3, 4] }
 ```
 
-##### sequence
+#### sequence
 
 Evaluate synchronously each promise in the list from left to right, and collect the results.
 
@@ -158,11 +158,11 @@ sequence([getTen(), getTwenty()]);
 // Promise { [10, 20] }
 ```
 
-##### traverse
+#### traverse
 
 It is like the `map` function, but with the arguments flipped.
 
-##### lift
+#### lift
 
 Lift a pure function into a Promise value. 
 
@@ -180,9 +180,9 @@ It is also exported the functions `liftP2`, `liftP3`, `liftP4`
 and a type unsafe version called `liftPN`, that resolves all
 the promises then apply the n-ary function to its values.
 
-##### flatMap
+#### flatMap
 
-Given a Promise and a action function that depends of the value of these promise,
+Given a Promise and an action function that depends on the value of these promise,
 flatten the Promise and apply the value into the action, then await for the result.
 
 Example: 
@@ -195,11 +195,11 @@ flatMap(futureSelf, viewName);
 // Promise { 'User' }
 ```
 
-##### bind
+#### bind
 
 Given a Promise and one or more actions, sequentially compose these actions,
 passing any value produced by the first as an argument to the second and so on.
-Similar to the Haskell >>= operator. 
+Similar to the Haskell `>>=` operator. 
 
 Example:
 
@@ -213,16 +213,28 @@ bind(initial, doubleP, tripleP, stringifyP);
 // Promise { '6' }
 ```
 
-##### exec
+#### exec
 
 Given one or more actions, sequentially compose them, discarding any value 
-produced by the first, like sequencing operators. Similar to the Haskell >> operator.
+produced by the first, like sequencing operators. Similar to the Haskell `>>` operator.
 
-#### Utilities
+Example:
+
+```javascript
+const updateDatabase = async () => true;
+const notifyUsers = async () => true;
+const dropInstance = async () => true;
+
+exec(updateDatabase, notifyUsers, dropInstance);
+```
+
+##### Utilities
+
+---
 
 This module contains a serie of utility functions that you can use.
 
-##### id
+#### id
 
 The identity function, it returns the argument.
 
@@ -232,7 +244,7 @@ const value = 40;
 id(value); // 40
 ```
 
-##### flip
+#### flip
 
 For a given function, it return a new function that has the arguments flipped.
 
@@ -248,7 +260,7 @@ fdiv(2, 4); // 2
 
 It is also exported `flip3` and `flip4` functions that has 3 and 4-arity.
 
-##### curry
+#### curry
 
 Transform a function into an static curried function.
 
@@ -263,7 +275,7 @@ add10(10); // 20
 
 It is also exported `curry3` and `curry4` functions that deal with function that has 3 and 4-arity.
 
-##### uncurry
+#### uncurry
 
 Undo a curried function.
 
@@ -276,7 +288,7 @@ const add = uncurry(lazyAdd);
 add(1, 2); // 3
 ```
 
-##### compose
+#### compose
 
 Compose `n` pure functions into a single function, applying from right to left.
 
@@ -292,7 +304,7 @@ const composed = compose(fn1, fn2, fn3, fn4);
 composed(); // fn1(fn2(fn3(fn4(1))))
 ```
 
-##### pipe
+#### pipe
 
 Compose `n` pure functions into a single function, applying from left to right.
 
