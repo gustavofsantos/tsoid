@@ -4,6 +4,8 @@ Typed functional library to deal with async operations.
 
 ![NPM Publish](https://github.com/gustavofsantos/tsoid/workflows/NPM%20Publish/badge.svg?branch=master)
 
+![Jest Coverage](https://github.com/gustavofsantos/tsoid/workflows/Jest%20Coverage/badge.svg?branch=master)
+
 ---
 
 ### Getting Started
